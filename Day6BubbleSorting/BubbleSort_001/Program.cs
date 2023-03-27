@@ -17,14 +17,17 @@ int max = 100;
 bool show = !true;
 
 int[] array = new int[n];
-
-for (int i = 0; i < n; i++) array[i] = Random.Shared.Next(max);
+// for (int i = 0; i < n; i++) array[i] = Random.Shared.Next(max);
+for (int i = 0; i < n; i++) array[i] = n - i;
 if (show) Console.WriteLine($"[{String.Join(", ", array)}]");
 int[] arr1 = new int[n];
 int[] arr2 = new int[n];
+int[] arr3 = new int[n];
+
 
 Array.Copy(array, arr1, n);
 Array.Copy(array, arr2, n);
+Array.Copy(array, arr3, n);
 
 if (show) Console.WriteLine($"arr1: [{String.Join(", ", arr1)}]");
 
@@ -64,6 +67,28 @@ for (int k = 0; k < n - 1; k++)
 sw.Stop();
 
 Console.WriteLine($"arr2 - {Check(arr2)} {sw.ElapsedMilliseconds}ms");
+
+sw = new Stopwatch();
+sw.Start();
+for (int k = 0; k < n - 1; k++)
+{
+    bool check = true;
+    for (int i = 0; i < n - 1 - k; i++)
+    {
+        if (arr3[i] > arr3[i + 1])
+        {
+            check = false;
+            int temp = arr3[i];
+            arr3[i] = arr3[i + 1];
+            arr3[i + 1] = temp;
+        }
+    }
+    if (check) break;
+}
+sw.Stop();
+
+Console.WriteLine($"arr3 - {Check(arr3)} {sw.ElapsedMilliseconds}ms");
+if (show) Console.WriteLine($"arr3: [{String.Join(", ", arr3)}]");
 
 
 if (show) Console.WriteLine($"arr2: [{String.Join(", ", arr2)}]");
