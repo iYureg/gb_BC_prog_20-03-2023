@@ -1,9 +1,5 @@
 ﻿// алгоритм сортировки пузырьком
-
-int n = 20;
-int max = 100;
-
-int[] array = new int[n];
+using System.Diagnostics;
 
 bool Check(int[] array)
 {
@@ -16,22 +12,58 @@ bool Check(int[] array)
 }
 
 
-for (int i = 0; i < n; i++) array[i] = Random.Shared.Next(max);
-Console.WriteLine($"[{String.Join(", ", array)}]");
-Console.WriteLine(Check(array));
+int n = 10000;
+int max = 100;
+bool show = !true;
 
+int[] array = new int[n];
+
+for (int i = 0; i < n; i++) array[i] = Random.Shared.Next(max);
+if (show) Console.WriteLine($"[{String.Join(", ", array)}]");
+int[] arr1 = new int[n];
+int[] arr2 = new int[n];
+
+Array.Copy(array, arr1, n);
+Array.Copy(array, arr2, n);
+
+if (show) Console.WriteLine($"arr1: [{String.Join(", ", arr1)}]");
+
+
+Stopwatch sw = new Stopwatch();
+
+sw.Start();
 for (int k = 0; k < n - 1; k++)
     for (int i = 0; i < n - 1 - k; i++)
     {
-        if (array[i] > array[i + 1])
+        if (arr1[i] > arr1[i + 1])
         {
-            int temp = array[i];
-            array[i] = array[i + 1];
-            array[i + 1] = temp;
+            int temp = arr1[i];
+            arr1[i] = arr1[i + 1];
+            arr1[i + 1] = temp;
         }
     }
+sw.Stop();
+
+Console.WriteLine($"arr1 - {Check(arr1)} {sw.ElapsedMilliseconds}ms");
+if (show) Console.WriteLine($"arr1: [{String.Join(", ", arr1)}]");
+if (show) Console.WriteLine($"arr2: [{String.Join(", ", arr2)}]");
+// Console.ReadLine();
+sw.Reset();
+
+sw.Start();
+for (int k = 0; k < n - 1; k++)
+    for (int i = 0; i < n - 1; i++)
+    {
+        if (arr2[i] > arr2[i + 1])
+        {
+            int temp = arr2[i];
+            arr2[i] = arr2[i + 1];
+            arr2[i + 1] = temp;
+        }
+    }
+sw.Stop();
+
+Console.WriteLine($"arr2 - {Check(arr2)} {sw.ElapsedMilliseconds}ms");
 
 
-
-Console.WriteLine($"[{String.Join(", ", array)}]");
-Console.WriteLine(Check(array));
+if (show) Console.WriteLine($"arr2: [{String.Join(", ", arr2)}]");
