@@ -1,20 +1,20 @@
 from flask import Flask, render_template
+from LoginForm import Lf
 #from random import randint as rd
 
 app = Flask(__name__)
 
 @app.route('/')
 def main():
-    with open('file.txt', 'r', encoding='utf-8') as file:
-        resultData = list()
-        for line in file.readlines():
-            resultData.append(tuple(line.split('\n')[0].split(';')))    
+    return render_template('base.html')
 
-    return render_template('base.html', data = resultData)
+@app.route('/register')
+def reg():
+    form = Lf()
+    if form.validate_on_submit():
+        pass
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+    return render_template('register.html', title='Регистрация', form=form)
 
 
 if __name__ == '__main__':
